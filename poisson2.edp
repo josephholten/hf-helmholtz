@@ -1,0 +1,3 @@
+border b1(t=0, 2*pi){ x=cos(t); y=sin(t); label=1; }
+mesh Th = buildmesh(b1(50));  // 50 points on the circle
+plot(Th);

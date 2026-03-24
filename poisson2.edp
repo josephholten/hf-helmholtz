@@ -1,3 +1,13 @@
 border b1(t=0, 2*pi){ x=cos(t); y=sin(t); label=1; }
-mesh Th = buildmesh(b1(50));  // 50 points on the circle
-plot(Th);
+mesh Th = buildmesh(b1(100));  // 50 points on the circle
+
+fespace Vh(Th, P1);
+
+func f = sin(x^2 + 2*y);
+
+Vh uh, vh;
+solve Poisson(uh,vh) = int2d(Th)(dx(uh)*dx(vh) + dy(uh)*dy(vh))
+  - int2d(Th)(f*vh)
+  + on(1,uh=0);
+
+plot(uh);

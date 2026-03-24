@@ -1,0 +1,15 @@
+// Mesh
+mesh Th = square(20, 20);
+
+// FE space
+fespace Vh(Th, P1);
+Vh u, v;
+
+// Variational form: -Δu = 1, u=0 on ∂Ω
+solve Poisson(u, v) =
+    int2d(Th)(dx(u)*dx(v) + dy(u)*dy(v))
+  - int2d(Th)(1.0 * v)
+  + on(1, 2, 3, 4, u=0);
+
+// Output
+plot(u, wait=true, fill=true, value=true);

@@ -1,5 +1,8 @@
+real hmax=0.1;
+
 border b1(t=0, 2*pi){ x=cos(t); y=sin(t); label=1; }
 mesh Th = buildmesh(b1(100));
+Th = adaptmesh(Th, hmax=hmax);
 fespace Vh(Th, P1);
 func f = exp(-x^2 - y^2);
 Vh fh = f;

@@ -6,7 +6,9 @@ mesh Th = buildmesh(b1(nborder));
 
 fespace Vh(Th, P1);
 
-Vh<complex> uh, vh;
+func u = exp(1i*k*x);
+
+Vh<complex> uh, vh, uht = u, wh;
 
 func g = (1i*k*(x-1)*exp(1i*k*x));
 
@@ -15,17 +17,21 @@ solve Helmholtz (uh,vh) =
   - int1d(Th,1)(1i*k^(-1)*uh*conj(vh))
   - int1d(Th,1)(k^(-2)*g*conj(vh));
 
-func u = exp(1i*k*x);
-real l2era = sqrt(int2d(Th)(abs(uh-u)^2));
-real l2err = sqrt(int2d(Th)(abs(uh-u)^2) / int2d(Th)(abs(u)^2));
-cout << "l2era = " << l2era << endl;
-cout << "l2err = " << l2err << endl;
+solve Helmholtz2 (vh,wh) =
+  int2d(Th)(k^(-2)*(dx(vh)*conj(dx(wh))+dy(vh)*conj(dy(wh)))+vh*conj(wh))
+  - int2d(Th)(k^(-2)*(dx(uht)*conj(dx(wh))+dy(uht)*conj(dy(wh))))
+  - int2d(Th)(uht*conj(wh));
 
-Vh<complex> uht = u;
-solve Helmholtz2 (vh,wh) = int2d(Th)(k^(-2)*((dx(vh)-dx(uht))*conj(dx(wh)) + (dy(vh)-dy(uht))*conj(dy(wh))) + (vh-uht)*conj(wh));
+real l2era1 = sqrt(int2d(Th)(abs(u-uh)^2));
+real l2era2 = sqrt(int2d(Th)(abs(u-vh)^2));
 
-//Vh Ruh = real(uh);
-//plot(Ruh, fill=true, value=true);
+cout << endl;
+cout << "-----------------" << endl;
+cout << "l2era1 = " << l2era1 << endl;
+cout << "l2era2 = " << l2era2 << endl;
+cout << "-----------------" << endl;
+cout << endl;
 
+Vh Ruh = real(uh);
 Vh Rvh = real(vh);
-plot(Rvh, fill=true, value=true);
+plot(Ruh, fill=true, value=true, wait=true, cmm="Ruh - Helmholtz 1");

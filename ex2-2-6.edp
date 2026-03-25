@@ -6,10 +6,6 @@ mesh Th = buildmesh(b1(nborder));
 
 fespace Vh(Th, P1);
 
-//func f = exp(-x^2 - y^2);
-//Vh fh = f;
-//plot(Th, fh);
-
 Vh<complex> uh, vh;
 
 func g = (1i*k*(x-1)*exp(1i*k*x));
@@ -18,6 +14,12 @@ solve Helmholtz (uh,vh) =
   int2d(Th)(k^(-2)*(dx(uh)*conj(dx(vh))+dy(uh)*conj(dy(vh))) - uh*conj(vh))
   - int1d(Th,1)(1i*k^(-1)*uh*conj(vh))
   - int1d(Th,1)(k^(-2)*g*conj(vh));
+
+func u = exp(1i*k*x);
+real l2era = sqrt(int2d(Th)(abs(uh-u)^2));
+real l2err = sqrt(int2d(Th)(abs(uh-u)^2) / int2d(Th)(abs(u)^2));
+cout << "l2era = " << l2era << endl;
+cout << "l2err = " << l2err << endl;
 
 Vh Ruh = real(uh);
 plot(Ruh, fill=true, value=true);

@@ -1,14 +1,15 @@
 border b1(t=0, 2*pi){ x=cos(t); y=sin(t); label=1; }
-real hmax = .01;
+real hmax = .01, l2era1, l2era2;
 real k = 10;
 int  nborder = 2*pi / hmax;
-mesh Th = buildmesh(b1(nborder));
+mesh Th = buildmesh(b1(nborder)), Th4 = trunc(Th, 1, split=4);
 
-fespace Vh(Th, P1);
+fespace Vh(Th, P1), Vh4(Th4, P1);
 
 func u = exp(1i*k*x);
 
 Vh<complex> uh, vh, uht = u, wh;
+Vh4<complex> uh4, vh4;
 
 func g = (1i*k*(x-1)*exp(1i*k*x));
 
@@ -22,10 +23,24 @@ solve Helmholtz2 (vh,wh) =
   - int2d(Th)(k^(-2)*(dx(uht)*conj(dx(wh))+dy(uht)*conj(dy(wh))))
   - int2d(Th)(uht*conj(wh));
 
-real l2era1 = sqrt(int2d(Th)(abs(u-uh)^2));
-real l2era2 = sqrt(int2d(Th)(abs(u-vh)^2));
+l2era1 = sqrt(int2d(Th)(abs(u-uh)^2));
+l2era2 = sqrt(int2d(Th)(abs(u-vh)^2));
 
 cout << endl;
+cout << "-----------------" << endl;
+cout << "l2era1 = " << l2era1 << endl;
+cout << "l2era2 = " << l2era2 << endl;
+cout << "-----------------" << endl;
+cout << endl;
+
+uh4 = uh;
+vh4 = vh;
+l2era1 = sqrt(int2d(Th4)(abs(u-uh4)^2));
+l2era2 = sqrt(int2d(Th4)(abs(u-vh4)^2));
+
+cout << endl;
+cout << "-----------------" << endl;
+cout << "using four times refiend mesh for evaluating the errors" << endl;
 cout << "-----------------" << endl;
 cout << "l2era1 = " << l2era1 << endl;
 cout << "l2era2 = " << l2era2 << endl;

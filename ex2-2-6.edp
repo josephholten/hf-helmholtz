@@ -1,6 +1,6 @@
 border b1(t=0, 2*pi){ x=cos(t); y=sin(t); label=1; }
 real hmax = .01;
-real k = 100;
+real k = 10;
 int  nborder = 2*pi / hmax;
 mesh Th = buildmesh(b1(nborder));
 

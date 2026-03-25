@@ -21,5 +21,11 @@ real l2err = sqrt(int2d(Th)(abs(uh-u)^2) / int2d(Th)(abs(u)^2));
 cout << "l2era = " << l2era << endl;
 cout << "l2err = " << l2err << endl;
 
-Vh Ruh = real(uh);
-plot(Ruh, fill=true, value=true);
+Vh<complex> uht = u;
+solve Helmholtz2 (vh,wh) = int2d(Th)(k^(-2)*((dx(vh)-dx(uht))*conj(dx(wh)) + (dy(vh)-dy(uht))*conj(dy(wh))) + (vh-uht)*conj(wh));
+
+//Vh Ruh = real(uh);
+//plot(Ruh, fill=true, value=true);
+
+Vh Rvh = real(vh);
+plot(Rvh, fill=true, value=true);

@@ -33,4 +33,5 @@ solve Helmholtz (uh,vh) =
 cout << "err=" << H1kerr(uh) << endl;
 
 Vh Ruh = real(uh), Rut = real(u);
+plot(Th, wait=true);
 plot(Ruh, fill=true);

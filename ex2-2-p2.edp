@@ -10,7 +10,7 @@ macro H1kerr(wh) sqrt(
 
 int p = 2;
 real c0 = 1.5;
-real c1 = 3;
+real c1 = 8;
 
 for (int ik = 0; ik < 6; ik++) {
   real k = 10 + 5*ik;

@@ -21,12 +21,6 @@ real hmax = .5/k; real hmin = hmax/4;
 int nborder1 = (2*L+a) / hmax;
 int nborder2 =    L   / hmax;
 mesh Th = buildmesh(b1(nborder1) + b2(nborder2) + b3(nborder1) + b4(nborder2));
-func mref = (x < L-a/2) * 1
-          + (x >= L-a/2 && x < L+a/2) * (0.5*sin(-pi/2*(x-L)/a) + 0.5);
-func mref2 = hmax*mref+hmin;
-fespace Vh1(Th, P1);
-Th = adaptmesh(Th, mref2, IsMetric=1, nbvx=1e7);
-plot(Th, wait=true, cmm="adapted mesh");
 
 fespace Vh(Th, P1);
 Vh<complex> uh, vh, wh;

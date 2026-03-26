@@ -1,6 +1,6 @@
 border b1(t=0, 2*pi){ x=cos(t); y=sin(t); label=1; }
-real hmax = .01, l2era1, l2era2;
 real k = 10;
+real hmax = .5/k, l2erau, l2erav;
 int  nborder = 2*pi / hmax;
 mesh Th = buildmesh(b1(nborder)), Th4 = trunc(Th, 1, split=4);
 
@@ -23,30 +23,18 @@ solve Helmholtz2 (vh,wh) =
   - int2d(Th)(k^(-2)*(dx(uht)*conj(dx(wh))+dy(uht)*conj(dy(wh))))
   - int2d(Th)(uht*conj(wh));
 
-l2era1 = sqrt(int2d(Th)(abs(u-uh)^2));
-l2era2 = sqrt(int2d(Th)(abs(u-vh)^2));
+l2erau = sqrt(int2d(Th)(abs(u-uh)^2)+int2d(Th)(k^(-2)*(abs(dx(uht)-dx(uh))^2+abs(dy(uht)-dy(uh))^2)));
+l2erav = sqrt(int2d(Th)(abs(u-vh)^2)+int2d(Th)(k^(-2)*(abs(dx(uht)-dx(vh))^2+abs(dy(uht)-dy(vh))^2)));
 
 cout << endl;
 cout << "-----------------" << endl;
-cout << "l2era1 = " << l2era1 << endl;
-cout << "l2era2 = " << l2era2 << endl;
+cout << "l2erau = " << l2erau << endl;
+cout << "l2erav = " << l2erav << endl;
 cout << "-----------------" << endl;
 cout << endl;
 
-uh4 = uh;
-vh4 = vh;
-l2era1 = sqrt(int2d(Th4)(abs(u-uh4)^2));
-l2era2 = sqrt(int2d(Th4)(abs(u-vh4)^2));
-
-cout << endl;
-cout << "-----------------" << endl;
-cout << "using four times refiend mesh for evaluating the errors" << endl;
-cout << "-----------------" << endl;
-cout << "l2era1 = " << l2era1 << endl;
-cout << "l2era2 = " << l2era2 << endl;
-cout << "-----------------" << endl;
-cout << endl;
-
-Vh Ruh = real(uh);
-Vh Rvh = real(vh);
-plot(Ruh, fill=true, value=true, wait=true, cmm="Ruh - Helmholtz 1");
+//Vh Ruh = real(uh), Iuh = imag(uh), Rvh = real(vh), Ivh = imag(vh);
+//plot(Ruh, fill=true, value=true, wait=true, cmm="Ruh - Helmholtz 1");
+//plot(Rvh, fill=true, value=true, wait=true, cmm="Rvh - Helmholtz 2");
+//plot(Iuh, fill=true, value=true, wait=true, cmm="Iuh - Helmholtz 1");
+//plot(Ivh, fill=true, value=true, wait=true, cmm="Ivh - Helmholtz 2");

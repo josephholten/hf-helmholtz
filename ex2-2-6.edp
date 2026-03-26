@@ -1,6 +1,11 @@
 border b1(t=0, 2*pi){ x=cos(t); y=sin(t); label=1; }
 ofstream f("ratio.dat");
 
+macro H1kerr(wh) sqrt(
+  int2d(Th)(abs(u-wh)^2)
+  + int2d(Th)(k^(-2)*(abs(dxu-dx(wh))^2+abs(dyu-dy(wh))^2))
+) //
+
 for (int ik = 0; ik < 4; ik++) {
   real k = 10 + 5*ik;
   func u = exp(1i*k*x);
@@ -30,16 +35,7 @@ for (int ik = 0; ik < 4; ik++) {
       - int2d(Th)(k^(-2)*(dxu*conj(dx(wh))+dyu*conj(dy(wh))))
       - int2d(Th)(u*conj(wh));
 
-    real l2erau = sqrt(
-      int2d(Th)(abs(u-uh)^2)
-      +int2d(Th)(k^(-2)*(abs(dxu-dx(uh))^2+abs(dyu-dy(uh))^2))
-     );
-    real l2erav = sqrt(
-      int2d(Th)(abs(u-vh)^2)
-      +int2d(Th)(k^(-2)*(abs(dxu-dx(vh))^2+abs(dyu-dy(vh))^2))
-    );
-
-    f << l2erau/l2erav << " ";
+    f << H1kerr(uh)/H1kerr(vh) << " ";
   }
 
   f << endl;

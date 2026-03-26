@@ -1,4 +1,5 @@
 border b1(t=0, 2*pi){ x=cos(t); y=sin(t); label=1; }
+ofstream f("ratio.dat");
 
 for (int ik = 0; ik < 4; ik++) {
 real k = 10 + 5*ik;
@@ -27,5 +28,5 @@ solve Helmholtz2 (vh,wh) =
 real l2erau = sqrt(int2d(Th)(abs(u-uh)^2)+int2d(Th)(k^(-2)*(abs(dxu-dx(uh))^2+abs(dyu-dy(uh))^2)));
 real l2erav = sqrt(int2d(Th)(abs(u-vh)^2)+int2d(Th)(k^(-2)*(abs(dxu-dx(vh))^2+abs(dyu-dy(vh))^2)));
 
-cout << "k=" << k << "  ratio=" << l2erau/l2erav << "  erau=" << l2erau << "  erav=" << l2erav << endl;
+f << k << " " << l2erau/l2erav << " " << l2erau << " " << l2erav << endl;
 }

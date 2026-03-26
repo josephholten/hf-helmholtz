@@ -1,10 +1,10 @@
 real a=0;
 real L=1;
 
-border b1(t=0,2*L+a){ x=t;     y=0; label=1; }
-border b2(t=0,L){     x=2*L+a; y=t; label=1; }
-border b3(t=0,2*L+a){ x=2*L+a-t; y=L; label=1; }
-border b4(t=0,L){     x=0;     y=L-t; label=1; }
+border b1(t=0,2*L+a){ x=t;       y=0;   label=1; }
+border b2(t=0,L){     x=2*L+a;   y=t;   label=1; }
+border b3(t=0,2*L+a){ x=2*L+a-t; y=L;   label=1; }
+border b4(t=0,L){     x=0;       y=L-t; label=1; }
 
 macro H1kerr(wh) sqrt(
   int2d(Th)(abs(u-wh)^2)

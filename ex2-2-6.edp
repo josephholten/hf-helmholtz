@@ -13,7 +13,7 @@ for (int ik = 0; ik < 4; ik++) {
 
   for (int ir = 0; ir < 2; ir++) {
     cout << "ir=" << ir << endl;
-    real hmax = .5*k^(-ir-1);
+    real hmax = 5*10.^(ir-1)*k^(-ir-1);
     int nborder = 2*pi / hmax;
     mesh Th = buildmesh(b1(nborder));
 

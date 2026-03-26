@@ -1,4 +1,4 @@
-real a=0;
+real a=0.2;
 real L=1;
 
 border b1(t=0,2*L+a){ x=t;       y=0;   label=1; }
@@ -17,10 +17,18 @@ func dxu = 1i*k*exp(1i*k*x);
 func dyu = 0.;
 func g = 1i*(N.x-1)*exp(1i*k*x);
 
-real hmax = .5/k;
+real hmax = .05/k; real hmin = hmax/10;
 int nborder1 = (2*L+a) / hmax;
 int nborder2 =    L   / hmax;
 mesh Th = buildmesh(b1(nborder1) + b2(nborder2) + b3(nborder1) + b4(nborder2));
+func mref = (x < L-a/2) * 1
+          + (x >= L-a/2 && x < L+a/2) * (0.5*sin(-pi/2*(x-L)/a) + 0.5);
+func mref2 = hmax*mref+hmin;
+fespace Vh1(Th, P1);
+Vh1 mrefh = mref2;
+plot(mrefh, wait=true, cmm="mrefh");
+Th = adaptmesh(Th, mref2, IsMetric=1);
+plot(Th, wait=true, cmm="adapted mesh");
 
 fespace Vh(Th, P1);
 Vh<complex> uh, vh, wh;
@@ -33,5 +41,4 @@ solve Helmholtz (uh,vh) =
 cout << "err=" << H1kerr(uh) << endl;
 
 Vh Ruh = real(uh), Rut = real(u);
-plot(Th, wait=true);
 plot(Ruh, fill=true);

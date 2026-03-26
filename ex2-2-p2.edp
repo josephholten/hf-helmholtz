@@ -4,8 +4,8 @@ border b1(t=0, 2*pi){ x=cos(t); y=sin(t); label=1; }
 ofstream f("ratio2.dat");
 
 macro H1kerr(wh) sqrt(
-  int2d(Th, qforder=12)(abs(u-wh)^2)
-  + int2d(Th, qforder=12)(k^(-2)*(abs(dxu-dx(wh))^2+abs(dyu-dy(wh))^2))
+  int2d(Th4, qforder=12)(abs(u-wh)^2)
+  + int2d(Th4, qforder=12)(k^(-2)*(abs(dxu-dx(wh))^2+abs(dyu-dy(wh))^2))
 ) //
 
 int p = 2;
@@ -22,7 +22,7 @@ for (int ik = 0; ik < 6; ik++) {
 
   for (int ir = 0; ir < 2; ir++) {
     cout << "ir=" << ir << endl;
-    real hmax = 5*10.^(ir-1)*k^(-1);
+    real hmax = 15*10.^(ir-1)*k^(-1);
     if (ir == 1) hmax = hmax * k^(-1./p);
     int nborder = 2*pi / hmax;
     mesh Th = buildmesh(b1(nborder)), Th4 = trunc(Th, 1, split=4);

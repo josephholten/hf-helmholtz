@@ -1,6 +1,6 @@
 #!/bin/bash
 gnuplot -p <<EOF
-set xlabel 'k'
+set xlabel 'Wavenumber k'
 set ylabel 'Q-O ratio'
 set title 'p=1'
 set xtics 5

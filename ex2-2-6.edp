@@ -6,6 +6,8 @@ macro H1kerr(wh) sqrt(
   + int2d(Th)(k^(-2)*(abs(dxu-dx(wh))^2+abs(dyu-dy(wh))^2))
 ) //
 
+int p = 1;
+
 for (int ik = 0; ik < 4; ik++) {
   real k = 10 + 5*ik;
   func u = exp(1i*k*x);
@@ -18,7 +20,7 @@ for (int ik = 0; ik < 4; ik++) {
 
   for (int ir = 0; ir < 2; ir++) {
     cout << "ir=" << ir << endl;
-    real hmax = 5*10.^(ir-1)*k^(-ir-1);
+    real hmax = 5*10.^(ir-1)*k^(-ir-1/p);
     int nborder = 2*pi / hmax;
     mesh Th = buildmesh(b1(nborder));
 

@@ -17,7 +17,7 @@ func dxu = 1i*k*exp(1i*k*x);
 func dyu = 0.;
 func g = 1i*(N.x-1)*exp(1i*k*x);
 
-real hmax = .5/k; real hmin = hmax/4;
+real hmax = .1/k; real hmin = hmax/4;
 int nborder1 = (2*L+a) / hmax;
 int nborder2 =    L   / hmax;
 mesh Th = buildmesh(b1(nborder1) + b2(nborder2) + b3(nborder1) + b4(nborder2));
@@ -32,5 +32,6 @@ solve Helmholtz (uh,vh) =
 
 cout << "err=" << H1kerr(uh) << endl;
 
-Vh Ruh = real(uh), Rut = real(u);
-plot(Ruh, fill=true);
+Vh Ruh = real(uh), era = log(10^(-12)+abs(real(uh-u)))/log(10.);
+plot(Ruh, fill=true, cmm="real part of uh", wait=true);
+plot(era, fill=true, cmm="log10 era", wait=true);

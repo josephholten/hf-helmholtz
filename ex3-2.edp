@@ -15,7 +15,7 @@ real k = 10;
 func u = exp(1i*k*x);
 func dxu = 1i*k*exp(1i*k*x);
 func dyu = 0.;
-func g = 1i*(x-1)*exp(1i*k*x);
+func g = 1i*(N.x-1)*exp(1i*k*x);
 
 real hmax = .5/k;
 int nborder1 = (2*L+a) / hmax;

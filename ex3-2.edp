@@ -1,4 +1,10 @@
-border b1(t=0, 2*pi){ x=cos(t); y=sin(t); label=1; }
+real a=0;
+real L=1;
+
+border b1(t=0,2*L+a){ x=t;     y=0; label=1; }
+border b2(t=0,L){     x=2*L+a; y=t; label=2; }
+border b3(t=0,2*L+a){ x=2*L+a-t; y=L; label=3; }
+border b4(t=0,L){     x=0;     y=L-t; label=4; }
 
 macro H1kerr(wh) sqrt(
   int2d(Th)(abs(u-wh)^2)
@@ -12,18 +18,20 @@ func dyu = 0.;
 func g = 1i*k*(x-1)*exp(1i*k*x);
 
 real hmax = .5/k;
-int nborder = 2*pi / hmax;
-mesh Th = buildmesh(b1(nborder));
+int nborder1 = (2*L+a) / hmax;
+int nborder2 =    L   / hmax;
+mesh Th = buildmesh(b1(nborder1) + b2(nborder2) + b3(nborder1) + b4(nborder2));
+plot(Th);
 
-fespace Vh(Th, P1);
-Vh<complex> uh, vh, wh;
+//fespace Vh(Th, P1);
+//Vh<complex> uh, vh, wh;
 
-solve Helmholtz (uh,vh) =
-  int2d(Th)(k^(-2)*(dx(uh)*conj(dx(vh))+dy(uh)*conj(dy(vh))) - uh*conj(vh))
-  - int1d(Th,1)(1i*k^(-1)*uh*conj(vh))
-  - int1d(Th,1)(k^(-2)*g*conj(vh));
-
-cout << "err=" << H1kerr(uh) << endl;
-
-Vh Ruh = real(uh);
-plot(Ruh, fill=true);
+//solve Helmholtz (uh,vh) =
+//  int2d(Th)(k^(-2)*(dx(uh)*conj(dx(vh))+dy(uh)*conj(dy(vh))) - uh*conj(vh))
+//  - int1d(Th,1)(1i*k^(-1)*uh*conj(vh))
+//  - int1d(Th,1)(k^(-2)*g*conj(vh));
+//
+//cout << "err=" << H1kerr(uh) << endl;
+//
+//Vh Ruh = real(uh);
+//plot(Ruh, fill=true);

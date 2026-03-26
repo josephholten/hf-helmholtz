@@ -1,9 +1,11 @@
+load "qf11to25"
+
 border b1(t=0, 2*pi){ x=cos(t); y=sin(t); label=1; }
 ofstream f("ratio2.dat");
 
 macro H1kerr(wh) sqrt(
-  int2d(Th)(abs(u-wh)^2)
-  + int2d(Th)(k^(-2)*(abs(dxu-dx(wh))^2+abs(dyu-dy(wh))^2))
+  int2d(Th, qforder=12)(abs(u-wh)^2)
+  + int2d(Th, qforder=12)(k^(-2)*(abs(dxu-dx(wh))^2+abs(dyu-dy(wh))^2))
 ) //
 
 int p = 2;
@@ -30,14 +32,14 @@ for (int ik = 0; ik < 6; ik++) {
     Vh4<complex> uh4, vh4;
 
     solve Helmholtz (uh,vh) =
-      int2d(Th)(k^(-2)*(dx(uh)*conj(dx(vh))+dy(uh)*conj(dy(vh))) - uh*conj(vh))
-      - int1d(Th,1)(1i*k^(-1)*uh*conj(vh))
-      - int1d(Th,1)(k^(-2)*g*conj(vh));
+      int2d(Th, qforder=12)(k^(-2)*(dx(uh)*conj(dx(vh))+dy(uh)*conj(dy(vh))) - uh*conj(vh))
+      - int1d(Th,1, qforder=12)(1i*k^(-1)*uh*conj(vh))
+      - int1d(Th,1, qforder=12)(k^(-2)*g*conj(vh));
 
     solve Helmholtz2 (vh,wh) =
-      int2d(Th)(k^(-2)*(dx(vh)*conj(dx(wh))+dy(vh)*conj(dy(wh)))+vh*conj(wh))
-      - int2d(Th)(k^(-2)*(dxu*conj(dx(wh))+dyu*conj(dy(wh))))
-      - int2d(Th)(u*conj(wh));
+      int2d(Th, qforder=12)(k^(-2)*(dx(vh)*conj(dx(wh))+dy(vh)*conj(dy(wh)))+vh*conj(wh))
+      - int2d(Th, qforder=12)(k^(-2)*(dxu*conj(dx(wh))+dyu*conj(dy(wh))))
+      - int2d(Th, qforder=12)(u*conj(wh));
 
     uh4 = uh; vh4 = vh;
 

@@ -13,7 +13,7 @@ macro H1kerr(wh) sqrt(
   + int2d(Th)(k^(-2)*(abs(dxu-dx(wh))^2+abs(dyu-dy(wh))^2))
 ) //
 
-real k = 10;
+real k = 20;
 func u = exp(1i*k*x);
 func dxu = 1i*k*exp(1i*k*x);
 func dyu = 0.;

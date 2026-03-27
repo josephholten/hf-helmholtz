@@ -17,11 +17,34 @@ func dxu = 1i*k*exp(1i*k*x);
 func dyu = 0.;
 func g = 1i*(N.x-1)*exp(1i*k*x);
 
-real hmax = .5/k; real hmin = hmax/4;
+real hmax = .1/k; real hmin = hmax/4;
 int nborder1 = (2*L+a) / hmax;
 int nborder2 =    L   / hmax;
 mesh Th = buildmesh(b1(nborder1) + b2(nborder2) + b3(nborder1) + b4(nborder2));
 func mref = (x < L-a/2) * 1
           + (x >= L-a/2 && x < L+a/2) * (0.5*sin(-pi/2*(x-L)/a) + 0.5);
-Th = adaptmesh(Th, hmax*mref+hmin, IsMetric=1, nbvx=1e7);
-plot(Th, wait=true, cmm="adapted mesh");
+mesh Th2 = adaptmesh(Th, hmax*mref+hmin, IsMetric=1, nbvx=1e7);
+plot(Th2, wait=true, cmm="adapted mesh");
+
+fespace Vh(Th, P1), Vh2(Th2, P1);
+Vh<complex> uh, vh;
+Vh2<complex> uh2, vh2;
+
+solve Helmholtz (uh,vh) =
+  int2d(Th)(k^(-2)*(dx(uh)*conj(dx(vh))+dy(uh)*conj(dy(vh))) - uh*conj(vh))
+  - int1d(Th,1)(1i*k^(-1)*uh*conj(vh))
+  - int1d(Th,1)(k^(-1)*g*conj(vh));
+
+solve Helmholtz2 (uh2,vh2) =
+  int2d(Th2)(k^(-2)*(dx(uh2)*conj(dx(vh2))+dy(uh2)*conj(dy(vh2))) - uh2*conj(vh2))
+  - int1d(Th2,1)(1i*k^(-1)*uh2*conj(vh2))
+  - int1d(Th2,1)(k^(-1)*g*conj(vh2));
+
+cout << "err=" << H1kerr(uh) << endl;
+cout << "err2=" << H1kerr(uh2) << endl;
+
+Vh Ruh = real(uh), era = log(10^(-12)+abs(real(uh-u)))/log(10.),
+  era2 = log(10^(-12)+abs(real(uh2-u)))/log(10.);
+plot(Ruh, fill=true, cmm="real part of uh", wait=true);
+plot(era, fill=true, cmm="log10 era", wait=true);
+plot(era2, fill=true, cmm="log10 era2", wait=true);

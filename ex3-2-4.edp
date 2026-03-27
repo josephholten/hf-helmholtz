@@ -24,7 +24,7 @@ real hmax = .5/k; real hmin = hmax/4;
 int nborder1 = (2*L+a) / hmax;
 int nborder2 =    L   / hmax;
 int nborder3 = 2*pi / hmax;
-mesh Th = buildmesh(b1(nborder1) + b2(nborder2) + b3(nborder1) + b4(nborder2) + b5(nborder3));
+mesh Th = buildmesh(b1(nborder1) + b2(nborder2) + b3(nborder1) + b4(nborder2) + b5(-nborder3));
 func mref = (x < L-a/2) * 1
           + (x >= L-a/2 && x < L+a/2) * (0.5*sin(-pi/2*(x-L)/a) + 0.5);
 Th = adaptmesh(Th, hmax*mref+hmin, IsMetric=1, nbvx=1e7);
@@ -37,7 +37,7 @@ solve Helmholtz (uh,vh) =
   int2d(Th)(k^(-2)*(dx(uh)*conj(dx(vh))+dy(uh)*conj(dy(vh))) - uh*conj(vh))
   - int1d(Th,1)(1i*k^(-1)*uh*conj(vh))
   - int1d(Th,1)(k^(-1)*g*conj(vh))
-  + on(2,uh=g);
+  + on(2,uh=u);
 
 cout << "err=" << H1kerr(uh) << endl;
 

@@ -1,3 +1,6 @@
+load "Element_P3"
+load "iovtk"
+
 real a=0.5;
 real L=1;
 
@@ -22,7 +25,7 @@ int nborder1 = (2*L+a) / hmax;
 int nborder2 =    L   / hmax;
 mesh Th = buildmesh(b1(nborder1) + b2(nborder2) + b3(nborder1) + b4(nborder2));
 
-fespace Vh(Th, P1);
+fespace Vh(Th, P3), Vh1(Th, P1);
 Vh<complex> uh, vh, wh;
 
 solve Helmholtz (uh,vh) =
@@ -32,6 +35,6 @@ solve Helmholtz (uh,vh) =
 
 cout << "err=" << H1kerr(uh) << endl;
 
-Vh Ruh = real(uh), era = log(10^(-12)+abs(real(uh-u)))/log(10.);
+Vh1 Ruh = real(uh), era = log(10^(-12)+abs(real(uh-u)))/log(10.);
 plot(Ruh, fill=true, cmm="real part of uh", wait=true);
 plot(era, fill=true, cmm="log10 era", wait=true);

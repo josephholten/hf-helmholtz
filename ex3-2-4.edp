@@ -14,7 +14,7 @@ macro H1kerr(wh) sqrt(
   + int2d(Th)(k^(-2)*(abs(dxu-dx(wh))^2+abs(dyu-dy(wh))^2))
 ) //
 
-real k = 20;
+real k = 10;
 func u = exp(1i*k*x);
 func dxu = 1i*k*exp(1i*k*x);
 func dyu = 0.;
@@ -31,6 +31,7 @@ Th = adaptmesh(Th, hmax*mref+hmin, IsMetric=1, nbvx=1e7);
 plot(Th, wait=true, cmm="adapted mesh");
 
 fespace Vh(Th, P3);
+fespace Vh2(Th, P1);
 Vh<complex> uh, vh;
 
 solve Helmholtz (uh,vh) =
@@ -41,6 +42,7 @@ solve Helmholtz (uh,vh) =
 
 cout << "err=" << H1kerr(uh) << endl;
 
-Vh Ruh = real(uh), era = log(10^(-12)+abs(real(uh-u)))/log(10.);
+Vh2 Ruh = real(uh), era = log(10.^(-10.)+abs(real(uh-u)))/log(10.), era2 = abs(real(uh-u));
 plot(Ruh, fill=true, cmm="real part of uh", wait=true);
+plot(era2, fill=true, cmm="era", wait=true);
 plot(era, fill=true, cmm="log10 era", wait=true);

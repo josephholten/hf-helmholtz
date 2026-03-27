@@ -1,0 +1,182 @@
+\documentclass{beamer}
+
+\usepackage{amsmath, amssymb}
+\usepackage{xcolor}
+
+
+\title{Exercise 2.2: Helmholtz Problem \\ Pollution Effect}
+\author{}
+\date{}
+
+\begin{document}
+
+\frame{\titlepage}
+
+%-------------------------------------------------
+\begin{frame}{Problem Statement}
+We consider the Helmholtz problem on the unit ball $\Omega \subset \mathbb{R}^2$:
+\[
+(-k^{-2}\Delta - 1)u = 0 \quad \text{in } \Omega
+\]
+\[
+\frac{\partial u}{\partial n} - iku = g \quad \text{on } \partial \Omega
+\]
+
+with
+\[
+g(x) = ik(x_1 - 1)e^{ikx_1}.
+\]
+
+\bigskip
+
+\textbf{Goals:}
+\begin{itemize}
+    \item Show that $u = e^{ikx_1}$ is a solution
+    \item Prove that $u$ satisfies the variational formulation
+\end{itemize}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Task 1: Verifying the PDE}
+Ansatz:
+\[
+u(x) = e^{ikx_1}
+\]
+
+\textbf{Compute derivatives:}
+\[
+\nabla u = (ik e^{ikx_1}, 0)^T, \quad
+\Delta u = -k^2 e^{ikx_1}
+\]
+
+\bigskip
+
+Insert into PDE:
+\begin{align*}
+    (-k^{-2}\Delta -1)u
+&=-k^{-2}\Delta u-u \\
+&= -k^{-2}(-k^2e^{ikx_1}) -e^{ikx_1}\\
+&= (1-1)e^{ikx_1} = 0
+\end{align*}
+
+\bigskip
+
+\textbf{$\Rightarrow$ PDE is satisfied}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Task 1: Boundary Condition}
+Normal derivative:
+\[
+\frac{\partial u}{\partial n} = \nabla u \cdot n
+= ik e^{ikx_1} n_1
+\]
+
+Boundary expression:
+\[
+\frac{\partial u}{\partial n} - iku
+= ik e^{ikx_1}(n_1 - 1)
+\]
+
+On $\partial \Omega$:
+\[
+n = x \Rightarrow n_1 = x_1
+\]
+
+\bigskip
+
+\[
+\Rightarrow g(x) = ik(x_1 -1)e^{ikx_1}
+\]
+
+\bigskip
+
+\textbf{$\Rightarrow$ Boundary condition is satisfied}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Task 2: Variational Formulation}
+We want to show:
+\[
+a_k(u,v) = L(v) \quad \forall v \in H^1(\Omega)
+\]
+
+with
+\[
+a_k(u,v) = \int_\Omega \left(k^{-2} \nabla u \cdot \nabla \overline{v} - u\overline{v}\right) dx
+- ik^{-1} \int_{\partial \Omega} u\overline{v} \, ds
+\]
+
+\[
+L(v) = k^{-2} \int_{\partial \Omega} g \overline{v} \, ds
+\]
+
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Green's Identity}
+We use:
+\[
+\int_\Omega \nabla u \cdot \nabla \overline{v} dx
+= -\int_\Omega (\Delta u)\overline{v} dx
++ \int_{\partial \Omega} \frac{\partial u}{\partial n} \overline{v} ds
+\]
+
+Insert into $a_k(u,v)$:
+
+\begin{align*}
+a_k(u,v) = &\int_\Omega \left(k^{-2} \nabla u \cdot \nabla \overline{v} - u\overline{v}\right) dx
+- ik^{-1} \int_{\partial \Omega} u\overline{v} \, ds\\
+= &-k^{-2} \int_\Omega (\Delta u)\overline{v} dx
++ k^{-2} \int_{\partial \Omega} \frac{\partial u}{\partial n} \overline{v} ds \\
+&- \int_\Omega u\overline{v} dx
+- ik^{-1} \int_{\partial \Omega} u\overline{v} ds  
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{}
+Insert \[u(x) = e^{ikx_1}\]
+and using the normal derivative on the boundary:
+\[
+\frac{\partial u}{\partial n}(x) = ik e^{ikx_1} x_1
+\]  and\[\Delta u = -k^2e^{ikx_1}\]
+
+\begin{align*}
+a_k(u,v)
+=& \textcolor{blue}{-k^{-2} \int_\Omega (-k^2e^{ikx_1})\overline{v} dx}
++ k^{-2} \int_{\partial \Omega} ik e^{ikx_1}\textcolor{red}{\mathbf{ x_1}} \overline{v} ds
+\\& \textcolor{blue}{- \int_\Omega e^{ikx_1}\overline{v} dx}
+- ik^{-1} \int_{\partial \Omega} e^{ikx_1}\overline{v} ds\\
+&= ik^{-1} \int_{\partial \Omega} (x_1 -1) e^{ikx_1}\overline{v} ds\\
+&= ik^{-2} \int_{\partial \Omega} g\overline{v} ds\\
+&= L(v)
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{Exercise 6}
+    \includegraphics[width=1.05\textwidth]{Exercise_6.PNG}
+    \includegraphics[width=1.05\textwidth]{Code_Exercise_6.PNG}
+
+\end{frame}
+
+\begin{frame}{Exercise 6}
+    \begin{columns}
+    \begin{column}[c]{0.48\textwidth}
+        \hbox{}
+        
+        \vspace{1.em}
+        \begin{minipage}{\textwidth}
+            \includegraphics[width=.99\textwidth]{Grid_Exercise_6.PNG}
+        \end{minipage}
+        \end{column}
+        \begin{column}[c]{0.48\textwidth}
+        \begin{minipage}{\textwidth}        
+            \includegraphics[width=.99\textwidth]{Solution_Exercise_6.PNG}
+        \end{minipage}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\end{document}
